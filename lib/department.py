@@ -14,6 +14,17 @@ class Department:
 
     def __repr__(self):
         return f"<Department {self.id}: {self.name}, {self.location}>"
+    
+    def save(self):
+        if self.id is None:
+         CURSOR.execute("""
+            INSERT INTO reviews (year, summary, employee_id)
+            VALUES (?, ?, ?)
+         """, (self.year, self.summary, self.employee_id))
+         self.id = CURSOR.lastrowid
+        else:
+         self.update()
+
 
     @property
     def name(self):
@@ -178,3 +189,5 @@ class Department:
         return [
             Employee.instance_from_db(row) for row in rows
         ]
+
+    

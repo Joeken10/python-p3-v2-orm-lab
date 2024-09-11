@@ -18,6 +18,13 @@ class Employee:
             f"<Employee {self.id}: {self.name}, {self.job_title}, " +
             f"Department ID: {self.department_id}>"
         )
+    
+    def reviews(self):
+        from review import Review
+        CURSOR.execute("SELECT * FROM reviews WHERE employee_id = ?", (self.id,))
+        rows = CURSOR.fetchall()
+        return [Review.instance_from_db(row) for row in rows]
+
 
     @property
     def name(self):
