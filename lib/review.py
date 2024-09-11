@@ -35,7 +35,7 @@ class Review:
         CONN.commit()
 
     def save(self):
-        """Inserts the current instance into the 'reviews' table and updates its ID."""
+        """Inserts or updates the review in the 'reviews' table and updates its ID if new."""
         if self.id:
             self.update()
         else:
@@ -58,7 +58,7 @@ class Review:
 
     @classmethod
     def instance_from_db(cls, row):
-        """Return a Review instance with the attribute values from the table row."""
+        """Returns a Review instance with the attribute values from the table row."""
         review = cls.all.get(row[0])
         if review:
             review.year = row[1]
@@ -133,7 +133,7 @@ class Review:
 
     @employee_id.setter
     def employee_id(self, employee_id):
-        from employee import Employee
+        from employee import Employee  # Ensures the Employee class is available
         employee = Employee.find_by_id(employee_id)
         if employee:
             self._employee_id = employee_id
