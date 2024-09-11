@@ -25,6 +25,23 @@ class Department:
         else:
          self.update()
 
+    @classmethod
+    def create(cls, year, summary, employee_id):
+        review = cls(year, summary, employee_id)
+        review.save()
+        return review
+    
+    @classmethod
+    def instance_from_db(cls, row):
+        if row[0] in cls.all:
+            return cls.all[row[0]]
+        review = cls(row[1], row[2], row[3])
+        review.id = row[0]
+        cls.all[row[0]] = review
+        return review
+
+
+
 
     @property
     def name(self):
